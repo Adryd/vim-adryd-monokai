@@ -5,6 +5,15 @@
 
 " Global setup =============================================================={{{
 
+
+
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+map <F9> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
 if exists("*<SID>X")
   delf <SID>X
   delf <SID>rgb
@@ -19,6 +28,8 @@ endif
 
 hi clear
 syntax reset
+
+
 if exists('g:colors_name')
   unlet g:colors_name
 endif
@@ -260,53 +271,60 @@ if has('gui_running') || &t_Co == 88 || &t_Co == 256
   "}}}
 
 
+
   " Color definition --------------------------------------------------------{{{
   let s:dark = 0
   if &background ==# 'dark'
     let s:dark = 1
-    let s:mono_1 = 'abb2bf'
-    let s:mono_2 = '828997'
-    let s:mono_3 = '5c6370'
-    let s:mono_4 = '4b5263'
+    let s:mono_1 = 'cfcfc2'
+    let s:mono_2 = '75715e'
+    let s:mono_3 = '57584f'
+    let s:mono_4 = '48483e'
 
-    let s:hue_1  = '56b6c2' " cyan
-    let s:hue_2  = '61afef' " blue
-    let s:hue_3  = 'c678dd' " purple
-    let s:hue_4  = '98c379' " green
+    "let s:hue_1  = '56b6c2' " cyan
+    "let s:hue_2  = '61afef' " blue
+    "let s:hue_3  = 'c678dd' " purple
+    "let s:hue_4  = '98c379' " green
 
-    let s:hue_5   = 'e06c75' " red 1
-    let s:hue_5_2 = 'be5046' " red 2
+   
 
-    let s:hue_6   = 'd19a66' " orange 1
-    let s:hue_6_2 = 'e5c07b' " orange 2
+    let s:syntax_bg     = '222222'
+    let s:syntax_gutter = '6c6c6c'
+    let s:syntax_cursor = '303030'
 
-    let s:syntax_bg     = '282c34'
-    let s:syntax_gutter = '636d83'
-    let s:syntax_cursor = '2c323c'
+    let s:red            = 'dc2566'
+    let s:b_red          = 'fa2772'
+    let s:green          = '8fc029'
+    let s:b_green        = 'a7e22e'
+    let s:yellow         = 'ffa827'
+    let s:b_yellow       = 'e6db74'
+    let s:blue           = '55bcce'
+    let s:b_blue         = '66d9ee'
+    let s:magenta        = '9358fe'
+    let s:b_magenta      = 'ae82ff'
+    let s:cyan           = '56b7a5'
+    let s:b_cyan         = '66efd5'
+    let s:comment = '6d6db5'
+
+    let s:hue_1  = s:b_cyan " cyan
+    let s:hue_2  = s:b_blue " blue
+    let s:hue_3  = s:b_magenta  " purple
+    let s:hue_4  = s:b_green " green
+
+     let s:hue_5   = s:red " red 1
+    let s:hue_5_2 = s:b_red " red 2
+
+    let s:hue_6   = s:yellow " orange 1
+    let s:hue_6_2 = s:b_yellow " orange 2
+
 
     let s:syntax_accent = '528bff'
 
-    let s:vertsplit    = '181a1f'
-    let s:special_grey = '3b4048'
-    let s:visual_grey  = '3e4452'
-    let s:pmenu        = '333841'
+    let s:vertsplit    = '1c1c1c'
+    let s:special_grey = '4e4e4e'
+    let s:visual_grey  = '202020'
+    let s:pmenu        = '303030'
   else
-    let s:mono_1 = '494b53'
-    let s:mono_2 = '696c77'
-    let s:mono_3 = 'a0a1a7'
-    let s:mono_4 = 'c2c2c3'
-
-    let s:hue_1  = '0184bc' " cyan
-    let s:hue_2  = '4078f2' " blue
-    let s:hue_3  = 'a626a4' " purple
-    let s:hue_4  = '50a14f' " green
-
-    let s:hue_5   = 'e45649' " red 1
-    let s:hue_5_2 = 'ca1243' " red 2
-
-    let s:hue_6   = '986801' " orange 1
-    let s:hue_6_2 = 'c18401' " orange 2
-
     let s:syntax_bg     = 'fafafa'
     let s:syntax_gutter = '9e9e9e'
     let s:syntax_cursor = 'f0f0f0'
@@ -378,41 +396,42 @@ if has('gui_running') || &t_Co == 88 || &t_Co == 256
   " }}}
 
   " Standard syntax highlighting --------------------------------------------{{{
-  call <sid>X('Comment',        s:mono_3,        '',          'italic')
-  call <sid>X('Constant',       s:hue_4,         '',          '')
-  call <sid>X('String',         s:hue_4,         '',          '')
-  call <sid>X('Character',      s:hue_4,         '',          '')
-  call <sid>X('Number',         s:hue_6,         '',          '')
-  call <sid>X('Boolean',        s:hue_6,         '',          '')
-  call <sid>X('Float',          s:hue_6,         '',          '')
-  call <sid>X('Identifier',     s:hue_5,         '',          'none')
-  call <sid>X('Function',       s:hue_2,         '',          '')
-  call <sid>X('Statement',      s:hue_3,         '',          'none')
-  call <sid>X('Conditional',    s:hue_3,         '',          '')
-  call <sid>X('Repeat',         s:hue_3,         '',          '')
-  call <sid>X('Label',          s:hue_3,         '',          '')
-  call <sid>X('Operator',       s:syntax_accent, '',          'none')
-  call <sid>X('Keyword',        s:hue_5,         '',          '')
+  call <sid>X('Comment',        s:comment,        '',          'italic')
+  call <sid>X('Constant',       s:red,         '',          '')
+  call <sid>X('String',         s:green,         '',          '')
+  call <sid>X('Character',      s:green,         '',          '')
+  call <sid>X('Number',         s:b_magenta,         '',          '')
+  call <sid>X('Boolean',        s:b_magenta,         '',          '')
+  call <sid>X('Float',          s:b_magenta,         '',          '')
+  call <sid>X('Identifier',     s:red,         '',          'none')
+  call <sid>X('Function',       s:blue,         '',          '')
+  call <sid>X('Statement',      s:b_blue,         '',          'none')
+  call <sid>X('Conditional',    s:b_blue,         '',          '')
+  call <sid>X('Repeat',         s:b_blue,         '',          '')
+  call <sid>X('Label',          s:b_blue,         '',          '')
+  call <sid>X('Operator',       s:b_blue, '',          'none')
+  call <sid>X('Keyword',        s:green,         '',          '')
   call <sid>X('Exception',      s:hue_3,         '',          '')
-  call <sid>X('PreProc',        s:hue_6_2,       '',          '')
+  call <sid>X('PreProc',        s:syntax_fg,       '',          '')
   call <sid>X('Include',        s:hue_2,         '',          '')
   call <sid>X('Define',         s:hue_3,         '',          'none')
   call <sid>X('Macro',          s:hue_3,         '',          '')
-  call <sid>X('PreCondit',      s:hue_6_2,       '',          '')
-  call <sid>X('Type',           s:hue_6_2,       '',          'none')
-  call <sid>X('StorageClass',   s:hue_6_2,       '',          '')
-  call <sid>X('Structure',      s:hue_6_2,       '',          '')
-  call <sid>X('Typedef',        s:hue_6_2,       '',          '')
-  call <sid>X('Special',        s:hue_2,         '',          '')
-  call <sid>X('SpecialChar',    '',              '',          '')
+  call <sid>X('PreCondit',      s:red,       '',          '')
+  call <sid>X('Type',           s:red,       '',          'none')
+  call <sid>X('StorageClass',   s:red,       '',          '')
+  call <sid>X('Structure',      s:red,       '',          '')
+  call <sid>X('Typedef',        s:red,       '',          '')
+  call <sid>X('Special',        s:b_magenta,         '',          '')
+  call <sid>X('SpecialChar',    s:b_magenta,              '',          '')
+  call <sid>X('Noise',    s:mono_2,              '',          '')
   call <sid>X('Tag',            '',              '',          '')
   call <sid>X('Delimiter',      '',              '',          '')
   call <sid>X('SpecialComment', '',              '',          '')
   call <sid>X('Debug',          '',              '',          '')
   call <sid>X('Underlined',     '',              '',          'underline')
   call <sid>X('Ignore',         '',              '',          '')
-  call <sid>X('Error',          s:hue_5,         s:syntax_bg, 'bold')
-  call <sid>X('Todo',           s:hue_3,         s:syntax_bg, '')
+  call <sid>X('Error',          s:b_red,         s:syntax_bg, 'bold')
+  call <sid>X('Todo',           s:b_magenta,         s:syntax_bg, '')
   " }}}
 
   " Diff highlighting -------------------------------------------------------{{{
@@ -526,7 +545,7 @@ if has('gui_running') || &t_Co == 88 || &t_Co == 256
   " }}}
 
   " Git and git related plugins highlighting --------------------------------{{{
-  call <sid>X('gitcommitComment',       s:mono_3,  '', '')
+  call <sid>X('gitcommitComment',       s:comment,  '', '')
   call <sid>X('gitcommitUnmerged',      s:hue_4,   '', '')
   call <sid>X('gitcommitOnBranch',      '',        '', '')
   call <sid>X('gitcommitBranch',        s:hue_3,   '', '')
@@ -577,59 +596,79 @@ if has('gui_running') || &t_Co == 88 || &t_Co == 256
 
   " JavaScript highlighting -------------------------------------------------{{{
   call <sid>X('coffeeString',           s:hue_4,   '', '')
-
   call <sid>X('javaScriptBraces',       s:mono_2,  '', '')
-  call <sid>X('javaScriptFunction',     s:hue_3,   '', '')
+  call <sid>X('javascriptDotNotation',  s:mono_2,   '', '')
+  
+  
+  call <sid>X('javascriptFuncCall',     s:b_green,   '', '')
+  call <sid>X('javaScriptFunction',     s:red,   '', '')
   call <sid>X('javaScriptIdentifier',   s:hue_3,   '', '')
-  call <sid>X('javaScriptNull',         s:hue_6,   '', '')
-  call <sid>X('javaScriptNumber',       s:hue_6,   '', '')
+  call <sid>X('javaScriptNull',         s:b_magenta,   '', '')
+  call <sid>X('javaScriptNumber',       s:b_magenta,   '', '')
   call <sid>X('javaScriptRequire',      s:hue_1,   '', '')
   call <sid>X('javaScriptReserved',     s:hue_3,   '', '')
+  
   " https://github.com/pangloss/vim-javascript
+  call <sid>X('jsNoise',                s:mono_2,  '', '')
   call <sid>X('jsArrowFunction',        s:hue_3,   '', '')
   call <sid>X('jsBraces',               s:mono_2,  '', '')
+  call <sid>X('jsBrackets',             s:mono_2,  '', '')
+  call <sid>X('jsParens',               s:mono_2,  '', '')
+  call <sid>X('javascriptParens',       s:mono_2,  '', '')
+  call <sid>X('jsObjectColon',          s:mono_2,  '', '')
   call <sid>X('jsClassBraces',          s:mono_2,  '', '')
   call <sid>X('jsClassKeywords',        s:hue_3,   '', '')
   call <sid>X('jsDocParam',             s:hue_2,   '', '')
   call <sid>X('jsDocTags',              s:hue_3,   '', '')
   call <sid>X('jsFuncBraces',           s:mono_2,  '', '')
-  call <sid>X('jsFuncCall',             s:hue_2,   '', '')
+  call <sid>X('jsFuncCall',             s:b_green,   '', '')
+  call <sid>X('jsFuncArgs',           s:yellow,  '', '')
   call <sid>X('jsFuncParens',           s:mono_2,  '', '')
-  call <sid>X('jsFunction',             s:hue_3,   '', '')
-  call <sid>X('jsGlobalObjects',        s:hue_6_2, '', '')
+  call <sid>X('jsFunction',             s:red,   '', '')
+  call <sid>X('jsGlobalObjects',        s:yellow, '', '')
+  call <sid>X('jsIfElseBraces',         s:mono_2, '', '')
   call <sid>X('jsModuleWords',          s:hue_3,   '', '')
   call <sid>X('jsModules',              s:hue_3,   '', '')
   call <sid>X('jsNoise',                s:mono_2,  '', '')
-  call <sid>X('jsNull',                 s:hue_6,   '', '')
-  call <sid>X('jsOperator',             s:hue_3,   '', '')
+   call <sid>X('jsReturn',                s:b_cyan,  '', '')
+  call <sid>X('jsRegexpGroup',          s:syntax_fg,  '', '')
+  call <sid>X('jsRegexpCharClass',          s:mono_2,  '', '')
+call <sid>X('jsRegexpString',          s:red,  '', '') 
+ call <sid>X('jsSpecial',          s:b_blue,  '', '')
+ 
+  call <sid>X('jsNull',                 s:b_magenta,   '', '')
+  call <sid>X('jsOperator',             s:b_blue,   '', '')
   call <sid>X('jsParens',               s:mono_2,  '', '')
-  call <sid>X('jsStorageClass',         s:hue_3,   '', '')
-  call <sid>X('jsTemplateBraces',       s:hue_5_2, '', '')
-  call <sid>X('jsTemplateVar',          s:hue_4,   '', '')
-  call <sid>X('jsThis',                 s:hue_5,   '', '')
-  call <sid>X('jsUndefined',            s:hue_6,   '', '')
-  call <sid>X('jsObjectValue',          s:hue_2,   '', '')
-  call <sid>X('jsObjectKey',            s:hue_1,   '', '')
-  call <sid>X('jsReturn',               s:hue_3,   '', '')
+  call <sid>X('jsStorageClass',         s:red,   '', '')
+  call <sid>X('jsTemplateBraces',       s:red, '', '')
+  call <sid>X('jsThis',                 s:magenta,   '', '')
+  call <sid>X('jsUndefined',            s:b_magenta,   '', '')
   " https://github.com/othree/yajs.vim
-  call <sid>X('javascriptArrowFunc',    s:hue_3,   '', '')
-  call <sid>X('javascriptClassExtends', s:hue_3,   '', '')
-  call <sid>X('javascriptClassKeyword', s:hue_3,   '', '')
-  call <sid>X('javascriptDocNotation',  s:hue_3,   '', '')
-  call <sid>X('javascriptDocParamName', s:hue_2,   '', '')
-  call <sid>X('javascriptDocTags',      s:hue_3,   '', '')
-  call <sid>X('javascriptEndColons',    s:mono_3,  '', '')
-  call <sid>X('javascriptExport',       s:hue_3,   '', '')
-  call <sid>X('javascriptFuncArg',      s:mono_1,  '', '')
-  call <sid>X('javascriptFuncKeyword',  s:hue_3,   '', '')
-  call <sid>X('javascriptIdentifier',   s:hue_5,   '', '')
-  call <sid>X('javascriptImport',       s:hue_3,   '', '')
-  call <sid>X('javascriptObjectLabel',  s:mono_1,  '', '')
-  call <sid>X('javascriptOpSymbol',     s:hue_1,   '', '')
-  call <sid>X('javascriptOpSymbols',    s:hue_1,   '', '')
+  call <sid>X('jsArrowFunction',    s:red,   '', '')
+  call <sid>X('javascriptBraces',    s:mono_2,   '', '')
+  call <sid>X('javascriptBrackets',    s:mono_2,   '', '')
+  call <sid>X('javascriptParen',    s:mono_2,   '', '')
+  call <sid>X('javascriptEndColons',    s:mono_2,   '', '')
+  call <sid>X('javascriptClassExtends', s:b_red,   '', '')
+  call <sid>X('javascriptClassKeyword', s:red,   '', '')
+  call <sid>X('javascriptRegexpString ', s:b_red,   '', '')
+  "call <sid>X('javascriptDocNotation',  s:hue_3,   '', '')
+  "call <sid>X('javascriptDocParamName', s:yellow,   '', '')
+  "call <sid>X('javascriptDocTags',      s:hue_3,   '', '')
+  "call <sid>X('javascriptEndColons',    s:mono_3,  '', '')
+  "call <sid>X('javascriptExport',       s:hue_3,   '', '')
+  call <sid>X('javascriptFuncArg',      s:yellow,  '', '')
+  call <sid>X('javascriptFuncKeyword',  s:red,   '', '')
+  call <sid>X('javascriptIdentifier',   s:magenta,   '', '')
+  "call <sid>X('javascriptImport',       s:hue_3,   '', '')
+  "call <sid>X('javascriptObjectLabel',  s:mono_1,  '', '')
+  call <sid>X('javascriptOpSymbol',     s:b_blue,   '', '')
+  call <sid>X('javascriptOpSymbols',    s:b_blue,   '', '')
   call <sid>X('javascriptPropertyName', s:hue_4,   '', '')
-  call <sid>X('javascriptTemplateSB',   s:hue_5_2, '', '')
-  call <sid>X('javascriptVariable',     s:hue_3,   '', '')
+  "call <sid>X('javascriptTemplateSB',   s:hue_5_2, '', '')
+  "call <sid>X('javascriptVariable',     s:hue_3,   '', '')
+  call <sid>X('javascriptFuncCall',     s:b_green,   '', '')
+
   " }}}
 
   " JSON highlighting -------------------------------------------------------{{{
@@ -642,7 +681,7 @@ if has('gui_running') || &t_Co == 88 || &t_Co == 256
   call <sid>X('jsonNumError',             s:hue_5,   '', 'reverse' )
   call <sid>X('jsonString',               s:hue_4,   '', ''        )
   call <sid>X('jsonBoolean',              s:hue_3,   '', ''        )
-  call <sid>X('jsonNumber',               s:hue_6,   '', ''        )
+  call <sid>X('jsonNumber',               s:b_magenta,   '', ''        )
   call <sid>X('jsonStringSQError',        s:hue_5,   '', 'reverse' )
   call <sid>X('jsonSemicolonError',       s:hue_5,   '', 'reverse' )
   " }}}
@@ -744,12 +783,12 @@ if has('gui_running') || &t_Co == 88 || &t_Co == 256
   " }}}
 
   " Vim highlighting --------------------------------------------------------{{{
-  call <sid>X('vimCommand',      s:hue_3,  '', '')
-  call <sid>X('vimCommentTitle', s:mono_3, '', 'bold')
-  call <sid>X('vimFunction',     s:hue_1,  '', '')
-  call <sid>X('vimFuncName',     s:hue_3,  '', '')
+  call <sid>X('vimCommand',      s:red,  '', '')
+  call <sid>X('vimCommentTitle', s:comment, '', 'bold')
+  call <sid>X('vimFunction',     s:b_red,  '', '')
+  call <sid>X('vimFuncName',     s:blue,  '', '')
   call <sid>X('vimHighlight',    s:hue_2,  '', '')
-  call <sid>X('vimLineComment',  s:mono_3, '', 'italic')
+  call <sid>X('vimLineComment',  s:comment, '', 'italic')
   call <sid>X('vimParenSep',     s:mono_2, '', '')
   call <sid>X('vimSep',          s:mono_2, '', '')
   call <sid>X('vimUserFunc',     s:hue_1,  '', '')
@@ -779,13 +818,13 @@ if has('gui_running') || &t_Co == 88 || &t_Co == 256
   call <sid>X('rustExternCrate',          s:hue_5,    '', 'bold')
   call <sid>X('rustIdentifier',           s:hue_2,    '', '')
   call <sid>X('rustDeriveTrait',          s:hue_4,    '', '')
-  call <sid>X('SpecialComment',           s:mono_3,    '', '')
-  call <sid>X('rustCommentLine',          s:mono_3,    '', '')
-  call <sid>X('rustCommentLineDoc',       s:mono_3,    '', '')
-  call <sid>X('rustCommentLineDocError',  s:mono_3,    '', '')
-  call <sid>X('rustCommentBlock',         s:mono_3,    '', '')
-  call <sid>X('rustCommentBlockDoc',      s:mono_3,    '', '')
-  call <sid>X('rustCommentBlockDocError', s:mono_3,    '', '')
+  call <sid>X('SpecialComment',           s:comment,    '', '')
+  call <sid>X('rustCommentLine',          s:comment,    '', '')
+  call <sid>X('rustCommentLineDoc',       s:comment,    '', '')
+  call <sid>X('rustCommentLineDocError',  s:comment,    '', '')
+  call <sid>X('rustCommentBlock',         s:comment,    '', '')
+  call <sid>X('rustCommentBlockDoc',      s:comment,    '', '')
+  call <sid>X('rustCommentBlockDocError', s:comment,    '', '')
   " }}}
 
   " man highlighting --------------------------------------------------------{{{
@@ -794,22 +833,22 @@ if has('gui_running') || &t_Co == 88 || &t_Co == 256
   " }}}
 
   " Neovim Terminal Colors --------------------------------------------------{{{
-  let g:terminal_color_0  = "#353a44"
-  let g:terminal_color_8  = "#353a44"
-  let g:terminal_color_1  = "#e88388"
-  let g:terminal_color_9  = "#e88388"
-  let g:terminal_color_2  = "#a7cc8c"
-  let g:terminal_color_10 = "#a7cc8c"
-  let g:terminal_color_3  = "#ebca8d"
-  let g:terminal_color_11 = "#ebca8d"
-  let g:terminal_color_4  = "#72bef2"
-  let g:terminal_color_12 = "#72bef2"
-  let g:terminal_color_5  = "#d291e4"
-  let g:terminal_color_13 = "#d291e4"
-  let g:terminal_color_6  = "#65c2cd"
-  let g:terminal_color_14 = "#65c2cd"
-  let g:terminal_color_7  = "#e3e5e9"
-  let g:terminal_color_15 = "#e3e5e9"
+  let g:terminal_color_0  = "#48483e"
+  let g:terminal_color_8  = "#75715e"
+  let g:terminal_color_1  = "#dc2566"
+  let g:terminal_color_9  = "#fa2772"
+  let g:terminal_color_2  = "#8fc029"
+  let g:terminal_color_10 = "#a7e22e"
+  let g:terminal_color_3  = "#ffa827"
+  let g:terminal_color_11 = "#e6db74"
+  let g:terminal_color_4  = "#55bcce"
+  let g:terminal_color_12 = "#66d9ee"
+  let g:terminal_color_5  = "#9358fe"
+  let g:terminal_color_13 = "#ae82ff"
+  let g:terminal_color_6  = "#56b7a5"
+  let g:terminal_color_14 = "#66efd5"
+  let g:terminal_color_7  = "#cfcfc2"
+  let g:terminal_color_15 = "#f8f8f2"
   "}}}
 
   " ALE (Asynchronous Lint Engine) highlighting -----------------------------{{{
